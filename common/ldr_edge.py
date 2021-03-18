@@ -43,12 +43,12 @@ class TimeTillEdge:
 
         def __setup(gp_in_out): GPIO.setup(self.gpio_pin, gp_in_out)
 
-        if io_order.lower() == 0:
+        if io_order == 0:
             __setup(GPIO.IN)
             sleep(0.1)
             __setup(GPIO.OUT)
             GPIO.output(self.gpio_pin, False)
-        elif io_order.lower() == 1:
+        elif io_order == 1:
             __setup(GPIO.OUT)
             GPIO.output(self.gpio_pin, False)
             sleep(0.1)
@@ -107,5 +107,5 @@ class TimeTillEdge:
 
 
 if __name__ == "__main__":
-    with TimeTillEdge(timeout=14500) as TTE:
+    with TimeTillEdge(timeout=120000) as TTE:
         print(TTE.return_avg_edge_time())
