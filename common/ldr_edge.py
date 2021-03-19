@@ -71,24 +71,24 @@ class TimeTillEdge:
             tuple -- "total_time": digit (float or int), "timeout_reached": bool
         """
         # default to timeout hit
-        total_time = self.timeout
+        total_time = self.timeout / 1000  # ms to s conversion
         timeout_reached = True
 
         start_t = time() # begin timer
         self._io_order(io_order)  # set IO for pin
         if GPIO.wait_for_edge(self.gpio_pin, self.edge, timeout=self.timeout) is not None:
-            total_time = time() - start_t
+            total_time = round(time() - start_t, 2)
             timeout_reached = False
 
         return total_time, timeout_reached
 
-    def poll_edge_time(self, iterations: int = 3, io_order: int = 1, average_results: bool = False, stop_on_timeout: bool = True) -> dict:
+    def poll_edge_time(self, iterations: int = 3, io_order: int = 1, average_results: bool = True, stop_on_timeout: bool = True) -> dict:
         """Polls the edge time for X iterations.
 
         Args:
             iterations (int, optional): [description]. Defaults to 3.
             io_order (int, optional): [description]. Defaults to 1.
-            average_results (bool, optional): [description]. Defaults to False.
+            average_results (bool, optional): [description]. Defaults to True.
             stop_on_timeout (bool, optional): [description]. Defaults to True.
 
         Returns:
@@ -101,10 +101,10 @@ class TimeTillEdge:
                 }
         """
         return_dict = {}
-        iters = 1
+        iters = 0
         for i in range(0, iterations):
             et, to = self.edge_time(io_order)
-            return_dict[i] = {"time": et, "timeout": to}
+            return_dict[str(i)] = {"time": et, "timeout": to}
 
             if to and stop_on_timeout:
                 break
@@ -112,10 +112,10 @@ class TimeTillEdge:
             iters += 1
 
         if average_results:
-            if iters == 1:  # Timeout was reached on the first attempt
-                avg_val = self.timeout
+            if iters == 0:  # Timeout was reached on the first attempt
+                avg_val = self.timeout / 1000  # ms to s conversion
             else:
-                avg_val = sum([x["time"] for x in return_dict.values()]) / iters
+                avg_val = round(sum([x["time"] for x in return_dict.values()]) / iters, 2)
 
             return_dict["average"] = avg_val
 
@@ -124,4 +124,4 @@ class TimeTillEdge:
 
 if __name__ == "__main__":
     with TimeTillEdge() as TTE:
-        print(TTE.poll_edge_time(average_results=True))
+        print(TTE.poll_edge_time())
