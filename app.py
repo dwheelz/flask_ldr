@@ -53,7 +53,7 @@ def ldr_time() -> str:
             }
 
     """
-    with TimeTillEdge(*ldr_config) as ldr:  # Using defaults
+    with TimeTillEdge(*ldr_config) as ldr:
         if request.method == "POST":
             post_data = request.get_json()
             try:
