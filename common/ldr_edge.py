@@ -120,8 +120,3 @@ class TimeTillEdge:
             return_dict["average"] = avg_val
 
         return return_dict
-
-
-if __name__ == "__main__":
-    with TimeTillEdge() as TTE:
-        print(TTE.poll_edge_time())
