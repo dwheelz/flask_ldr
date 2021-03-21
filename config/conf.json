@@ -1,0 +1,6 @@
+{
+    "gpio_mode": 0,
+    "gpio_pin": 7,
+    "edge": 0,
+    "timeout": 30000
+}
