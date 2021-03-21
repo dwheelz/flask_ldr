@@ -86,10 +86,10 @@ class TimeTillEdge:
         """Polls the edge time for X iterations.
 
         Args:
-            iterations (int, optional): [description]. Defaults to 3.
-            io_order (int, optional): [description]. Defaults to 1.
-            average_results (bool, optional): [description]. Defaults to True.
-            stop_on_timeout (bool, optional): [description]. Defaults to True.
+            iterations (int, optional): Defaults to 3.
+            io_order (int, optional): Defaults to 1.
+            average_results (bool, optional): Defaults to True.
+            stop_on_timeout (bool, optional): Defaults to True.
 
         Returns:
             dict: Example with average_results set to True:
